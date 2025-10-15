@@ -36,7 +36,7 @@ export function ChatInterface() {
               </button>}
           </div>
           <EmptyState />
-        </div> : <div className="flex-1 overflow-hidden flex flex-col md:flex-row gap-4">
+        </div> : <div className="flex-1 overflow-hidden flex flex-col lg:flex-row gap-4">
           <div className="flex-1 overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-800 truncate">
@@ -48,7 +48,7 @@ export function ChatInterface() {
             </div>
             <MessageList messages={messages} isLoading={isLoading} />
           </div>
-          <div className="w-full md:w-72 lg:w-80 shrink-0">
+          <div className="w-full lg:w-72 xl:w-80 shrink-0 h-[300px] lg:h-auto overflow-y-auto">
             <KnowledgePanel />
           </div>
         </div>}
@@ -75,26 +75,26 @@ function EmptyState() {
   };
   // Get the suggestions for the selected category or default to "All"
   const suggestions = categorySuggestions[selectedCategory] || categorySuggestions['All'];
-  return <div className="flex-1 flex flex-col items-center justify-center text-center p-6">
+  return <div className="flex-1 flex flex-col items-center justify-center text-center p-3 sm:p-6">
       <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4">
         <div className="w-8 h-8 rounded-md bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
           G
         </div>
       </div>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-        Novo Assistant
+      <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">
+        Novo Unified Support
       </h2>
-      <p className="text-gray-600 mb-6 max-w-md">
+      <p className="text-gray-600 mb-6 max-w-md text-sm sm:text-base">
         {selectedCategory === 'All' ? "Ask me anything about Novo's platform and I'll help you find the answers." : `Ask me anything about ${selectedCategory} and I'll help you find the answers.`}
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl px-2 sm:px-0">
         {suggestions.map((text, index) => <SuggestionButton key={index} text={text} />)}
       </div>
-      <div className="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-4 max-w-lg">
-        <h3 className="font-medium text-gray-700 mb-2">
+      <div className="mt-6 sm:mt-8 bg-gray-50 border border-gray-200 rounded-lg p-3 sm:p-4 max-w-lg w-full">
+        <h3 className="font-medium text-gray-700 mb-2 text-sm sm:text-base">
           What can I help with?
         </h3>
-        <ul className="text-sm text-gray-600 text-left space-y-2">
+        <ul className="text-xs sm:text-sm text-gray-600 text-left space-y-2">
           <li className="flex items-start">
             <span className="inline-block bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5 text-xs">
               ✓
@@ -135,7 +135,7 @@ function SuggestionButton({
   const {
     addUserMessage
   } = useAIAssistant();
-  return <button onClick={() => addUserMessage(text)} className="p-3 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 text-left transition-colors">
+  return <button onClick={() => addUserMessage(text)} className="p-3 border border-gray-300 rounded-md text-xs sm:text-sm text-gray-700 hover:bg-gray-50 text-left transition-colors min-h-[60px] touch-manipulation">
       {text}
     </button>;
 }

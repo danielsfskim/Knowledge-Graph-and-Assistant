@@ -57,7 +57,7 @@ export function Sidebar({
             G
           </div>
           <span className="ml-2 font-semibold text-gray-800">
-            Novo Assistant
+            Novo Unified Support
           </span>
         </div>
         {/* Collapse/Expand button moved to sidebar header */}
