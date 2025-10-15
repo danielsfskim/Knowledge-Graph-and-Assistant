@@ -243,14 +243,15 @@ export function AIResponse({
                   <ThumbsDown size={16} />
                 </button>
               </div>
-              {/* Feedback button */}
-              {!showFeedbackInput && <button onClick={() => setShowFeedbackInput(true)} className="p-1.5 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 touch-manipulation" title="Provide detailed feedback" aria-label="Provide feedback">
-                  <MessageSquare size={16} />
-                </button>}
               {!isEditing ? <>
+                  {/* Edit button - moved before feedback button */}
                   <button onClick={() => setIsEditing(true)} className="p-1.5 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 touch-manipulation" title="Edit response" aria-label="Edit response">
                     <Edit2 size={16} />
                   </button>
+                  {/* Feedback button */}
+                  {!showFeedbackInput && <button onClick={() => setShowFeedbackInput(true)} className="p-1.5 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 touch-manipulation" title="Provide detailed feedback" aria-label="Provide feedback">
+                      <MessageSquare size={16} />
+                    </button>}
                   <button onClick={handleCopy} className="p-1.5 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 touch-manipulation" title="Copy to clipboard" aria-label="Copy to clipboard">
                     {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
                   </button>
