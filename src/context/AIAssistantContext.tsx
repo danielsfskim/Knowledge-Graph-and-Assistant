@@ -206,8 +206,7 @@ export const AIAssistantProvider = ({
       ...tab,
       messages: tab.messages.map(msg => msg.id === id ? {
         ...msg,
-        content,
-        accepted: true // Auto-accept edited messages
+        content
       } : msg)
     } : tab));
   };

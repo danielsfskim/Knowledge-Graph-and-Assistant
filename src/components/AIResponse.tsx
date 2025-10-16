@@ -52,6 +52,7 @@ export function AIResponse({
     addAIResponse(improvedContent, newScore, improvedSources);
   };
   const handleSave = () => {
+    // We need to update this to not automatically accept the message
     updateMessage(id, editedContent);
     setIsEditing(false);
   };
@@ -182,7 +183,12 @@ export function AIResponse({
           </div>
           {!isEditing ? <div className="text-gray-800 whitespace-pre-wrap text-sm sm:text-base">
               {content}
-            </div> : <textarea value={editedContent} onChange={e => setEditedContent(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 min-h-[100px] text-sm sm:text-base" />}
+            </div> : <div className="relative">
+              <div className="absolute top-0 left-0 right-0 bg-blue-100 text-blue-800 px-3 py-1.5 text-xs font-medium rounded-t-md border-t border-l border-r border-blue-300">
+                Editing Response
+              </div>
+              <textarea value={editedContent} onChange={e => setEditedContent(e.target.value)} className="w-full p-3 pt-10 border-2 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[125px] text-sm sm:text-base bg-blue-50" autoFocus />
+            </div>}
           {/* Feedback input area */}
           {showFeedbackInput && <div className="mt-3 border-t border-gray-100 pt-3">
               <div className="mb-2">
