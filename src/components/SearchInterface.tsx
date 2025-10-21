@@ -13,13 +13,24 @@ export function SearchInterface() {
     personalization
   } = useAIAssistant();
   const [expandedResult, setExpandedResult] = useState<string | null>(null);
+  const [activeMode, setActiveMode] = useState<string>('search');
+  const [tabId, setTabId] = useState<string | null>(null);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       executeSearch(searchQuery);
     }
   };
-  const handleAskAbout = (title: string) => {
+  const handleAskAbout = (title: string, category: string) => {
+    // Switch to chat mode if not already in chat mode
+    if (activeMode !== 'chat') {
+      setActiveMode('chat');
+    }
+    // Create a new tab
+    const newTabId = createNewTab();
+    // Rename the tab to the article's category
+    renameTab(newTabId, `${category} Chat`);
+    // Add the user message about the article
     addUserMessage(`Tell me about ${title}`);
   };
   const toggleResult = (id: string) => {
@@ -93,7 +104,7 @@ export function SearchInterface() {
                           </a>
                           <button onClick={e => {
                   e.stopPropagation();
-                  handleAskAbout(article.title);
+                  handleAskAbout(article.title, article.category);
                 }} className="flex items-center bg-blue-100 text-blue-700 px-3 py-1.5 rounded hover:bg-blue-200 text-xs sm:text-sm w-full sm:w-auto justify-center sm:justify-start">
                             <BookOpen size={14} className="mr-1.5" />
                             Ask AI about this

@@ -41,15 +41,34 @@ export function AIResponse({
   const handleRegenerateResponse = () => {
     // Increase compliance score by 5-10% with each regeneration, max 99%
     const newScore = Math.min(99, complianceScore + Math.floor(Math.random() * 6) + 5);
-    // Create improved content for the new response
-    const improvedContent = `${content}\n\n[This is an improved response with higher accuracy and compliance]`;
-    // Create the same sources but with higher relevance
-    const improvedSources = sources.map(source => ({
-      ...source,
-      relevance: Math.min(0.99, source.relevance + 0.1)
-    }));
-    // Add a new AI response instead of updating the current one
-    addAIResponse(improvedContent, newScore, improvedSources);
+    // Check if content already has a regeneration notice
+    let regenerationCount = 1;
+    const regenerationMatch = content.match(/Regenerated response \((\d+)\)/);
+    if (regenerationMatch) {
+      // Increment existing count
+      regenerationCount = parseInt(regenerationMatch[1], 10) + 1;
+      // Remove the old regeneration text
+      let cleanedContent = content.replace(/\n\nRegenerated response \(\d+\).*$/, '');
+      // Add new regeneration text with updated count
+      const improvedContent = `${cleanedContent}\n\nRegenerated response (${regenerationCount}) - Higher accuracy and compliance`;
+      // Create the same sources but with higher relevance
+      const improvedSources = sources.map(source => ({
+        ...source,
+        relevance: Math.min(0.99, source.relevance + 0.1)
+      }));
+      // Add a new AI response instead of updating the current one
+      addAIResponse(improvedContent, newScore, improvedSources);
+    } else {
+      // First regeneration
+      const improvedContent = `${content}\n\nRegenerated response (1) - Higher accuracy and compliance`;
+      // Create the same sources but with higher relevance
+      const improvedSources = sources.map(source => ({
+        ...source,
+        relevance: Math.min(0.99, source.relevance + 0.1)
+      }));
+      // Add a new AI response instead of updating the current one
+      addAIResponse(improvedContent, newScore, improvedSources);
+    }
   };
   const handleSave = () => {
     // We need to update this to not automatically accept the message
@@ -181,8 +200,27 @@ export function AIResponse({
                 <RefreshCw size={14} className="mr-1" /> Regenerate
               </button>}
           </div>
-          {!isEditing ? <div className="text-gray-800 whitespace-pre-wrap text-sm sm:text-base">
-              {content}
+          {!isEditing ? <div>
+              <div className="text-indigo-600 font-medium text-sm mb-1 flex items-center">
+                <MessageCircle size={14} className="text-indigo-600 mr-1.5" />
+                Novo Assistant
+              </div>
+              <div className="text-gray-800 whitespace-pre-wrap text-sm sm:text-base">
+                {content}
+                {content.includes('Regenerated response') && <div className="mt-3 inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-md border border-blue-200">
+                    {(() => {
+                // Extract regeneration count from the content
+                const match = content.match(/Regenerated response \((\d+)\)/);
+                if (match) {
+                  const count = parseInt(match[1], 10);
+                  // Convert to ordinal format (2nd, 3rd, etc.)
+                  const ordinal = count === 1 ? '1st' : count === 2 ? '2nd' : count === 3 ? '3rd' : `${count}th`;
+                  return `${ordinal} Response Regenerated`;
+                }
+                return 'Response Regenerated';
+              })()}
+                  </div>}
+              </div>
             </div> : <div className="relative">
               <div className="absolute top-0 left-0 right-0 bg-blue-100 text-blue-800 px-3 py-1.5 text-xs font-medium rounded-t-md border-t border-l border-r border-blue-300">
                 Editing Response

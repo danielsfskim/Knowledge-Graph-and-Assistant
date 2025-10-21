@@ -26,6 +26,10 @@ export function ChatInterface() {
   }
   // Otherwise, return the chat interface
   return <div className="h-full flex flex-col">
+      {/* Chat Input positioned at the top */}
+      <div className="mb-4">
+        <ChatInput />
+      </div>
       {messages.length === 0 ? <div className="flex-1 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-800">
@@ -52,9 +56,6 @@ export function ChatInterface() {
             <KnowledgePanel />
           </div>
         </div>}
-      <div className="mt-4">
-        <ChatInput />
-      </div>
     </div>;
 }
 function EmptyState() {
